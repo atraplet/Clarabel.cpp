@@ -11,3 +11,5 @@ build
 !.github
 
 CMakePresets.json
+/cmake-build-release-wsl/
+/cmake-build-release/
