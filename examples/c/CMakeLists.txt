@@ -25,7 +25,7 @@ foreach(EXAMPLE_NAME ${C_EXAMPLES})
   # Link to clarabel built from the Rust wrapper
   target_link_libraries(${EXAMPLE_NAME} PRIVATE libclarabel_c_shared)
   # On Windows, copy the shared library and debug symbols to the output directory for targets that link to it
-  if(WIN32)
+  if(WIN32 AND (NOT MINGW))
     add_custom_command(
         TARGET ${EXAMPLE_NAME}
         POST_BUILD
