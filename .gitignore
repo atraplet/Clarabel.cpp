@@ -13,3 +13,4 @@ build
 CMakePresets.json
 /cmake-build-release-wsl/
 /cmake-build-release/
+/cmake-build-debug/
