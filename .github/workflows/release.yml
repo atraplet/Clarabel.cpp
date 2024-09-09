@@ -12,71 +12,76 @@ env:
   LIB_NAME: clarabel_c
 
 jobs:
-  build-linux:
-    runs-on: ubuntu-latest
+#  build-linux:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v4
+#        with:
+#          submodules: 'recursive'
+#      - name: Install Eigen
+#        run: |
+#          sudo apt-get update
+#          sudo apt-get install -y libeigen3-dev
+#      - name: Build
+#        shell: bash
+#        run: |
+#          cmake -DCMAKE_BUILD_TYPE=Release -G "Unix Makefiles" -S ./ -B ./build
+#          cmake --build ./build --target all
+#      - name: Upload library
+#        uses: actions/upload-artifact@v4
+#        with:
+#          name: lib${{ env.LIB_NAME }}.so
+#          path: rust_wrapper/target/release/lib${{ env.LIB_NAME }}.so
+#
+#  build-windows:
+#    runs-on: windows-latest
+#    steps:
+#      - uses: actions/checkout@v4
+#        with:
+#          submodules: 'recursive'
+#      - name: Setup msys2
+#        uses: msys2/setup-msys2@v2
+#        with:
+#          msystem: UCRT64
+#          update: true
+#          install: >-
+#            mingw-w64-ucrt-x86_64-toolchain
+#            mingw-w64-ucrt-x86_64-cmake
+#            mingw-w64-ucrt-x86_64-ninja
+#            mingw-w64-ucrt-x86_64-rust
+#            mingw-w64-ucrt-x86_64-cbindgen
+#            mingw-w64-ucrt-x86_64-eigen3
+#      - name: Build
+#        shell: msys2 {0}
+#        run: |
+#          cmake -DCMAKE_BUILD_TYPE=Release -G Ninja -S ./ -B ./build
+#          cmake --build ./build --target all
+#      - name: Upload library
+#        uses: actions/upload-artifact@v4
+#        with:
+#          name: ${{ env.LIB_NAME }}.dll
+#          path: rust_wrapper/target/release/${{ env.LIB_NAME }}.dll
+
+  build-macos:
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
         with:
           submodules: 'recursive'
       - name: Install Eigen
         run: |
-          sudo apt-get update
-          sudo apt-get install -y libeigen3-dev
+          brew install eigen
       - name: Build
         shell: bash
         run: |
-          cmake -DCMAKE_BUILD_TYPE=Release -G "Unix Makefiles" -S ./ -B ./build
-          cmake --build ./build --target all
+          cmake -G Xcode -S ./ -B ./build
+          cmake --build ./build --config Release --target ALL_BUILD
       - name: Upload library
         uses: actions/upload-artifact@v4
         with:
-          name: lib${{ env.LIB_NAME }}.so
-          path: rust_wrapper/target/release/lib${{ env.LIB_NAME }}.so
+          name: lib${{ env.LIB_NAME }}.dylib
+          path: rust_wrapper/target/release/lib${{ env.LIB_NAME }}.dylib
 
-  build-windows:
-    runs-on: windows-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          submodules: 'recursive'
-      - name: Setup msys2
-        uses: msys2/setup-msys2@v2
-        with:
-          msystem: UCRT64
-          update: true
-          install: >-
-            mingw-w64-ucrt-x86_64-toolchain
-            mingw-w64-ucrt-x86_64-cmake
-            mingw-w64-ucrt-x86_64-ninja
-            mingw-w64-ucrt-x86_64-eigen3
-            mingw-w64-ucrt-x86_64-rust
-            mingw-w64-ucrt-x86_64-cbindgen
-      - name: Build
-        shell: msys2 {0}
-        run: |
-          cmake -DCMAKE_BUILD_TYPE=Release -G Ninja -S ./ -B ./build
-          cmake --build ./build --target all
-      - name: Upload library
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ env.LIB_NAME }}.dll
-          path: rust_wrapper/target/release/${{ env.LIB_NAME }}.dll
-
-#  build-macos:
-#    runs-on: macos-latest
-#    steps:
-#      - uses: actions/checkout@v4
-#      - name: Build
-#        shell: bash
-#        run: |
-#          cmake -G Xcode -S ./ -B ./build
-#          cmake --build ./build --config Release --target ALL_BUILD
-#      - name: Upload library
-#        uses: actions/upload-artifact@v4
-#        with:
-#          name: lib${{ env.LIB_NAME }}.dylib
-#          path: build/release/lib${{ env.LIB_NAME }}.dylib
-#
 #  release:
 #    runs-on: ubuntu-latest
 #    needs: [ build-linux, build-windows, build-macos ]
