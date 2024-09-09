@@ -48,8 +48,9 @@ jobs:
             mingw-w64-ucrt-x86_64-toolchain
             mingw-w64-ucrt-x86_64-cmake
             mingw-w64-ucrt-x86_64-ninja
-            mingw-w64-ucrt-x86_64-rust
             mingw-w64-ucrt-x86_64-eigen3
+            mingw-w64-ucrt-x86_64-rust
+            cargo install --force cbindgen
       - name: Build
         shell: msys2 {0}
         run: |
