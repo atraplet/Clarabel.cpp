@@ -2,9 +2,9 @@ name: ci
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "tmp" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "tmp" ]
     types: [opened, synchronize, reopened]
 
 env:
