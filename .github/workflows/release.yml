@@ -76,6 +76,7 @@ jobs:
         run: |
           cmake -G Xcode -S ./ -B ./build
           cmake --build ./build --config Release --target ALL_BUILD
+          find . -name "lib${{ env.LIB_NAME }}.dylib"
       - name: Upload library
         uses: actions/upload-artifact@v4
         with:
