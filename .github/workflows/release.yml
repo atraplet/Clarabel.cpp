@@ -27,14 +27,11 @@ jobs:
         run: |
           cmake -DCMAKE_BUILD_TYPE=Release -G "Unix Makefiles" -S ./ -B ./build
           cmake --build ./build --target all
-          ls -la
-          ls -la ./build
-          ls -la ./rust_wrapper/target/release
       - name: Upload library
         uses: actions/upload-artifact@v4
         with:
           name: lib${{ env.LIB_NAME }}.so
-          path: build/lib${{ env.LIB_NAME }}.so
+          path: rust_wrapper/target/release/lib${{ env.LIB_NAME }}.so
 
 #  build-windows:
 #    runs-on: windows-latest
