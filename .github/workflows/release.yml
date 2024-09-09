@@ -25,7 +25,7 @@ jobs:
       - name: Build
         shell: bash
         run: |
-          cmake -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON -DCMAKE_BUILD_TYPE=Release -G "Unix Makefiles" -S ./ -B ./build
+          cmake -DCMAKE_BUILD_TYPE=Release -G "Unix Makefiles" -S ./ -B ./build
           cmake --build ./build --target all
       - name: Upload library
         uses: actions/upload-artifact@v4
@@ -54,7 +54,7 @@ jobs:
       - name: Build
         shell: msys2 {0}
         run: |
-          cmake -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON -DCMAKE_BUILD_TYPE=Release -G Ninja -S ./ -B ./build
+          cmake -DCMAKE_BUILD_TYPE=Release -G Ninja -S ./ -B ./build
           cmake --build ./build --target all
       - name: Upload library
         uses: actions/upload-artifact@v4
@@ -74,7 +74,7 @@ jobs:
       - name: Build
         shell: bash
         run: |
-          cmake -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON -DCMAKE_BUILD_TYPE=Release -G Xcode -S ./ -B ./build
+          cmake -DCMAKE_BUILD_TYPE=Release -G Xcode -S ./ -B ./build
           cmake --build ./build --config Release --target ALL_BUILD
       - name: Upload library
         uses: actions/upload-artifact@v4
