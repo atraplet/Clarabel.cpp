@@ -50,10 +50,10 @@ jobs:
             mingw-w64-ucrt-x86_64-ninja
             mingw-w64-ucrt-x86_64-eigen3
             mingw-w64-ucrt-x86_64-rust
+            mingw-w64-ucrt-x86_64-cbindgen
       - name: Build
         shell: msys2 {0}
         run: |
-          cargo install --force cbindgen
           cmake -DCMAKE_BUILD_TYPE=Release -G Ninja -S ./ -B ./build
           cmake --build ./build --target all
       - name: Upload library
