@@ -7,7 +7,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build:
+  build-linux:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -22,3 +22,42 @@ jobs:
         run: |
           cmake -DCMAKE_BUILD_TYPE=Release -G "Unix Makefiles" -S ./ -B ./build
           cmake --build ./build --target all
+
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: 'recursive'
+      - name: Setup msys2
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: UCRT64
+          update: true
+          install: >-
+            mingw-w64-ucrt-x86_64-toolchain
+            mingw-w64-ucrt-x86_64-cmake
+            mingw-w64-ucrt-x86_64-ninja
+            mingw-w64-ucrt-x86_64-rust
+            mingw-w64-ucrt-x86_64-cbindgen
+            mingw-w64-ucrt-x86_64-eigen3
+      - name: Build
+        shell: msys2 {0}
+        run: |
+          cmake -DCMAKE_BUILD_TYPE=Release -G Ninja -S ./ -B ./build
+          cmake --build ./build --target all
+
+  build-macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: 'recursive'
+      - name: Install Eigen
+        run: |
+          brew install eigen
+      - name: Build
+        shell: bash
+        run: |
+          cmake -DCMAKE_BUILD_TYPE=Release -G Xcode -S ./ -B ./build
+          cmake --build ./build --config Release --target ALL_BUILD
