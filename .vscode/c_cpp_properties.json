@@ -2,8 +2,17 @@
     "configurations": [
         {
             "name": "Linux",
+            // Use the flags CMake actually compiles the examples/tests with
+            // (requires a configured build in `build/`, see README).
+            "compileCommands": "${workspaceFolder}/build/compile_commands.json",
+            // Fallback for files not in compile_commands.json, e.g. headers
+            // such as examples/c/utils.h and examples/cpp/utils.h.
             "includePath": [
-                "${workspaceFolder}/include/**"
+                "${workspaceFolder}/include",
+                "${workspaceFolder}/examples/c",
+                "${workspaceFolder}/examples/cpp",
+                "${workspaceFolder}/tests",
+                "/usr/include/eigen3"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/gcc",
@@ -12,7 +21,9 @@
             "intelliSenseMode": "linux-gcc-x64",
             "browse": {
                 "path": [
-                    "${workspaceFolder}/examples/**"
+                    "${workspaceFolder}/include",
+                    "${workspaceFolder}/examples",
+                    "${workspaceFolder}/tests"
                 ],
                 "limitSymbolsToIncludedHeaders": true,
                 "databaseFilename": ""
